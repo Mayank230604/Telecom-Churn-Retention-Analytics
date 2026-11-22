@@ -1,0 +1,12 @@
+{
+  "name": "Telecom_Editorial.json",
+  "dataColors": [
+    "#A33F2B",
+    "#28665C",
+    "#466584",
+    "#826B4C"
+  ],
+  "foreground": "#172C42",
+  "background": "#FFFCF6",
+  "tableAccent": "#A33F2B"
+}

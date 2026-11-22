@@ -1,0 +1,195 @@
+table Customers
+	lineageTag: b3255893-9fe8-4b9e-9540-46cdc863e919
+
+	measure 'Total Customers' = COUNTROWS(Customers)
+		formatString: #,0
+		lineageTag: 5f93210a-77f4-415d-9b98-89f3764475d5
+
+	measure 'Active Customers' = SUM(Customers[active_customer_count])
+		formatString: #,0
+		lineageTag: bb40c8e1-71bf-48e5-a5b5-d5bd914cf8d6
+
+	measure 'Churned Customers' = SUM(Customers[churned_customer_count])
+		formatString: #,0
+		lineageTag: e43a1aa9-8302-406d-b8ee-6d33336f6345
+
+	measure 'Existing Customer Churn Rate' = DIVIDE([Churned Customers], SUM(Customers[existing_customer_count]))
+		formatString: 0.0%
+		lineageTag: 9de43c4d-2a71-44a2-a336-c6bd17713775
+
+	measure 'Active Monthly Charges' = SUM(Customers[active_monthly_charge])
+		formatString: $#,0
+		lineageTag: 9155457a-62a3-4b68-8670-76737081055d
+
+	measure 'Churned Monthly Charges' = SUM(Customers[churned_monthly_charge])
+		formatString: $#,0
+		lineageTag: e19ddd76-01cf-4594-98cb-d9f930803f2a
+
+	measure 'Cohort Churn Rate' = CALCULATE([Existing Customer Churn Rate], KEEPFILTERS(Customers[is_first_year_month_to_month] = TRUE()))
+		formatString: 0.0%
+		lineageTag: 479e7427-8df3-4589-96e6-74bf3df92dac
+
+	measure 'Cohort Active Customers' = CALCULATE([Active Customers], KEEPFILTERS(Customers[is_first_year_month_to_month] = TRUE()))
+		formatString: #,0
+		lineageTag: 6781da30-8cc8-4226-90dc-a9fd96dccf85
+
+	measure 'Cohort Active Monthly Charges' = CALCULATE([Active Monthly Charges], KEEPFILTERS(Customers[is_first_year_month_to_month] = TRUE()))
+		formatString: $#,0
+		lineageTag: bcd28076-48f1-4093-b3e0-5861940f70c6
+
+	measure 'Cohort Churned Customers' = CALCULATE([Churned Customers], KEEPFILTERS(Customers[is_first_year_month_to_month] = TRUE()))
+		formatString: #,0
+		lineageTag: 6773157d-9493-4971-9163-1a04f62ea1d4
+
+	measure 'Cohort Churned Monthly Charges' = CALCULATE([Churned Monthly Charges], KEEPFILTERS(Customers[is_first_year_month_to_month] = TRUE()))
+		formatString: $#,0
+		lineageTag: 41810489-2bce-4d44-9400-0dd28b28b075
+
+	measure 'Cohort Top Churn Reasons' = VAR Reason = SELECTEDVALUE(Customers[churn_reason]) VAR Candidates = FILTER(ADDCOLUMNS(ALLSELECTED(Customers[churn_reason]), "@Churn", [Cohort Churned Customers]), [@Churn] > 0) VAR TopReasons = TOPN(5, Candidates, [@Churn], DESC, Customers[churn_reason], ASC) RETURN IF(CONTAINS(TopReasons, Customers[churn_reason], Reason), [Cohort Churned Customers])
+		formatString: #,0
+		lineageTag: 7a0fdad1-7a5c-41c4-91c9-522b5a042761
+
+	column customer_id
+		dataType: string
+		lineageTag: 142587f3-fa22-46f5-8f38-548a41c22d93
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column customer_status
+		dataType: string
+		lineageTag: dd44a7fe-4108-49ae-847e-ebd22e90f80c
+		summarizeBy: none
+		sourceColumn: customer_status
+
+	column contract
+		dataType: string
+		lineageTag: ee5c348e-9bca-4eaa-9d2d-b9c614ace57c
+		summarizeBy: none
+		sourceColumn: contract
+
+	column tenure_in_months
+		dataType: int64
+		lineageTag: d7931da5-6821-4b89-a55d-9ef135b22aa5
+		summarizeBy: none
+		sourceColumn: tenure_in_months
+
+	column tenure_band_order
+		dataType: int64
+		lineageTag: fb630336-8d1b-41f2-9640-fc64a759db5e
+		summarizeBy: none
+		sourceColumn: tenure_band_order
+
+	column is_first_year_month_to_month
+		dataType: boolean
+		lineageTag: fc5b80e5-f99f-47ec-ae46-111041f7d049
+		summarizeBy: none
+		sourceColumn: is_first_year_month_to_month
+
+	column city
+		dataType: string
+		lineageTag: a520eacf-9a71-4780-926d-288287fd012a
+		summarizeBy: none
+		sourceColumn: city
+
+	column zip_code
+		dataType: string
+		lineageTag: cd3525b8-6749-4486-a05e-365419088aae
+		summarizeBy: none
+		sourceColumn: zip_code
+
+	column internet_service
+		dataType: string
+		lineageTag: d9faf54e-e982-4d1a-9f67-aecc71b8bcbb
+		summarizeBy: none
+		sourceColumn: internet_service
+
+	column internet_type
+		dataType: string
+		lineageTag: 8ee00aef-be69-4235-993d-2bdb5bb16213
+		summarizeBy: none
+		sourceColumn: internet_type
+
+	column payment_method
+		dataType: string
+		lineageTag: 7bf0009c-efb0-4263-9cc8-3037b2e18799
+		summarizeBy: none
+		sourceColumn: payment_method
+
+	column offer
+		dataType: string
+		lineageTag: 28c19797-eeb0-45cf-b516-dd20da6c1271
+		summarizeBy: none
+		sourceColumn: offer
+
+	column churn_category
+		dataType: string
+		lineageTag: bfcadb4d-c84f-4046-b325-b2739c3510dc
+		summarizeBy: none
+		sourceColumn: churn_category
+
+	column churn_reason
+		dataType: string
+		lineageTag: d3108e5e-22cc-4919-ae84-ac97482f2939
+		summarizeBy: none
+		sourceColumn: churn_reason
+
+	column monthly_charge
+		dataType: decimal
+		lineageTag: eca1e4a6-bfbd-453b-a04f-d1f8ef499f1b
+		summarizeBy: none
+		sourceColumn: monthly_charge
+
+	column historical_revenue
+		dataType: decimal
+		lineageTag: fbd325a5-45bd-43c0-8e40-ef04892e6b3f
+		summarizeBy: none
+		sourceColumn: historical_revenue
+
+	column tenure_band
+		dataType: string
+		lineageTag: ae2198a5-fb3e-4505-bb1c-b91f8e4e6f0a
+		summarizeBy: none
+		sourceColumn: tenure_band
+		sortByColumn: tenure_band_order
+
+	column existing_customer_count
+		dataType: int64
+		lineageTag: 15e2db04-091a-4cd8-a248-b1e56f18151b
+		summarizeBy: none
+		sourceColumn: existing_customer_count
+
+	column active_customer_count
+		dataType: int64
+		lineageTag: 1b0ebda8-0386-4d70-8144-5c6cf69669f5
+		summarizeBy: none
+		sourceColumn: active_customer_count
+
+	column churned_customer_count
+		dataType: int64
+		lineageTag: a93abec0-de3a-48dd-b5ef-e880627ec1f4
+		summarizeBy: none
+		sourceColumn: churned_customer_count
+
+	column active_monthly_charge
+		dataType: decimal
+		lineageTag: cfcfdb58-6cac-4652-9261-58c21cab98d4
+		summarizeBy: none
+		sourceColumn: active_monthly_charge
+
+	column churned_monthly_charge
+		dataType: decimal
+		lineageTag: 0fa5ae21-fc30-4400-a1d7-57812d4baf25
+		summarizeBy: none
+		sourceColumn: churned_monthly_charge
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\mayan\Downloads\Telecom-Churn-Retention-Analytics\data\processed\power_bi_customers.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Flags = Table.TransformColumns(Headers, {{"is_first_year_month_to_month", each if _ = null then null else Text.Lower(_) = "t", type logical}}),
+				    Typed = Table.TransformColumnTypes(Flags, {{"customer_id", type text}, {"customer_status", type text}, {"contract", type text}, {"tenure_in_months", Int64.Type}, {"tenure_band_order", Int64.Type}, {"is_first_year_month_to_month", type logical}, {"city", type text}, {"zip_code", type text}, {"internet_service", type text}, {"internet_type", type text}, {"payment_method", type text}, {"offer", type text}, {"churn_category", type text}, {"churn_reason", type text}, {"monthly_charge", Currency.Type}, {"historical_revenue", Currency.Type}, {"tenure_band", type text}, {"existing_customer_count", Int64.Type}, {"active_customer_count", Int64.Type}, {"churned_customer_count", Int64.Type}, {"active_monthly_charge", Currency.Type}, {"churned_monthly_charge", Currency.Type}}, "en-US")
+				in
+				    Typed
+

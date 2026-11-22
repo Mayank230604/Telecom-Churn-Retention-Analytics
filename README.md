@@ -4,6 +4,16 @@ A PostgreSQL 16 and Power BI project that analyzes a Q2 2022 snapshot of **7,043
 
 **Pipeline:** Source CSVs → PostgreSQL staging and analysis views → customer-level CSV → Power Query → DAX and Power BI.
 
+## Dashboard previews
+
+### Churn Overview
+
+![Churn Overview dashboard with customer KPIs and churn breakdowns](docs/images/churn-overview.png)
+
+### Retention Priorities
+
+![Retention Priorities dashboard with cohort KPIs, churn reasons, and the proposed pilot](docs/images/retention-priorities.png)
+
 ## Dataset
 
 The dataset represents a fictional California telecom provider. It was published by Maven Analytics, sourced from IBM Cognos Analytics, and listed as public domain. [Telecom Customer Churn dataset](https://mavenanalytics.io/data-playground/telecom-customer-churn)
@@ -16,7 +26,7 @@ The dataset represents a fictional California telecom provider. It was published
 | [sql/](sql/) | PostgreSQL setup, analysis views, and the Power BI source view |
 | [data/raw/](data/raw/) | Source customer snapshot, ZIP population lookup, and data dictionary |
 | [data/processed/](data/processed/) | Customer export used by Power BI |
-| `releases/` | Local ZIP packages for sharing |
+| [docs/images/](docs/images/) | Power BI screenshots for the README |
 
 ## Report pages
 

@@ -1,8 +1,12 @@
 # Telecom Churn & Retention Analytics
 
+![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white) ![Power BI](https://img.shields.io/badge/Power%20BI-Reporting-F2C811) ![Power Query](https://img.shields.io/badge/Power%20Query-Data%20Preparation-287A65) ![DAX](https://img.shields.io/badge/DAX-Measures-B45F28) ![Status: Completed](https://img.shields.io/badge/Status-Completed-2E7D32) ![Domain: Telecom Analytics](https://img.shields.io/badge/Domain-Telecom%20Analytics-6F42C1)
+
 A PostgreSQL 16 and Power BI project that analyzes a Q2 2022 snapshot of **7,043 telecom customers**, identifies a high-churn segment, and proposes a measurable retention pilot.
 
 **Pipeline:** Source CSVs → PostgreSQL staging and analysis views → customer-level CSV → Power Query → DAX and Power BI.
+
+**Skills demonstrated:** SQL (CTEs, window functions, and conditional aggregation), Power Query, DAX, cohort analysis, KPI design, and data visualization.
 
 ## Dashboard previews
 
